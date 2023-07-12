@@ -158,3 +158,6 @@ header {
     flex-wrap: wrap;
 }
 
+.left-margin{
+margin-left: 10px;
+}

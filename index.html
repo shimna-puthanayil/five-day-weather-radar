@@ -22,7 +22,7 @@
                 <h2 class="mx-2">Search for a City:</h2>
                 <form id="user-form" class="card-body">
                     <input name="username" id="username" type="text" autofocus="true" class="form-input" />
-                    <button type="submit" class="btn btnSearch">Search</button>
+                    <button id="btn-search" type="submit" class="btn btnSearch">Search</button>
                 </form>
 
             </div>
@@ -36,11 +36,11 @@
         <div class="col-12 col-sm-9">
             <div class="mx-5 my-3 ">
                 <div class="card current-weather">
-                    <p class="card-text">
-                    <h3></h3>
+                    <p id="current-weather" class="card-text">
+                    <!-- <h3></h3>
                     <h5>Temp :</h5>
                     <h5>Wind :</h5>
-                    <h5>Humidity :</h5>
+                    <h5>Humidity :</h5> -->
                     </p>
                 </div>
             </div>
@@ -102,6 +102,12 @@
         </div>
 
     </main>
+    <script
+    src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+    integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+    crossorigin="anonymous"
+  ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
