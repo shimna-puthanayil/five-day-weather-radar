@@ -1,8 +1,8 @@
 var apiKey = '8c1111d0cda691e591dcf0850684c969';
 // var city = "London";
-var city="";
+var city = "Sydney";
 var getCurrentWeather = function (city) {
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=' + apiKey;
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
         .then(function (response) {
             if (response.ok) {
@@ -33,6 +33,7 @@ var displayCurrentWeather = function (weather) {
     var wind = weather.wind.speed;
     var currentTime = weather.dt;
     var date = dayjs.unix(currentTime).format("DD/MM/YYYY");
+    var city=weather.name;
     // console.log(lon);
     // console.log(lat);
     // console.log(currentWeather);
@@ -44,24 +45,33 @@ var displayCurrentWeather = function (weather) {
 
     var currentWeatherEl = $('#current-weather');
     currentWeatherEl.html("");
-    var cityEl =$('<p>').append( $('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin'));
-    var imgEl=$('<img style="display:inline width:30px; height:40px">').attr('src',"https://openweathermap.org/img/wn/"+icon+"@2x.png");
+    var cityEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin'));
+    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
     cityEl.append(imgEl);
-    var tempEl = $('<p>').text("Temp : "+Math.round(currentTemp)).addClass('left-margin');
-    var windEl = $('<p>').text("Wind  : "+wind).addClass('left-margin');
-    var humidityEl = $('<p>').text("Humidity  : "+humidity+'%').addClass('left-margin');
+    var tempEl = $('<p>').text("Temp : " + Math.round(currentTemp) + " °F").addClass('left-margin');
+    var windEl = $('<p>').text("Wind  : " + wind + " MPH").addClass('left-margin');
+    var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
     currentWeatherEl.append(cityEl);
     currentWeatherEl.append(tempEl);
     currentWeatherEl.append(windEl);
     currentWeatherEl.append(humidityEl);
 
 }
-
-var btnSearchEl=$('#btn-search');
-btnSearchEl.on('click',function(event){
+getCurrentWeather(city);
+var btnSearchEl = $('#btn-search');
+btnSearchEl.on('click', function (event) {
     event.preventDefault();
-    var searchEl=$('#username');
-     city=searchEl.val();
-    getCurrentWeather(city);
-    
+    var searchEl = $('#username');
+    if (searchEl.val()) {
+       
+        city=searchEl.val();
+        getCurrentWeather(city);
+    }
+    else {
+        var myModal = new bootstrap.Modal($('#modal-city-name'),{
+            focus: true
+          });
+        myModal.show();
+    }
+
 })
