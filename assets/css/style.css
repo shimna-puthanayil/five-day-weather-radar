@@ -1,5 +1,5 @@
 :root {
-    --primary: #a6c2dd;
+    --primary: #ccdcec;
     --secondary: #9caea9;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
@@ -158,3 +158,6 @@ header {
     flex-wrap: wrap;
 }
 
+.left-margin{
+margin-left: 10px;
+}
