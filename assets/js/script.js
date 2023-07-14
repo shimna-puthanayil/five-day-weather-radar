@@ -46,14 +46,28 @@ var displayCurrentWeather = function (weather) {
     getFiveDayForecast(lon, lat);
 }
 getCurrentWeather(city);
+
+//search button click event
+
 var btnSearchEl = $('#btn-search');
 btnSearchEl.on('click', function (event) {
     event.preventDefault();
     var searchEl = $('#username');
     if (searchEl.val()) {
-
+        var cities = [];
         city = searchEl.val();
         getCurrentWeather(city);
+        var searchedCities = localStorage.getItem("cities");
+        if (searchedCities !== null) {
+            cities = JSON.parse(searchedCities);
+            cities.push(city);
+            localStorage.setItem("cities", JSON.stringify(cities));
+        }
+        else {
+            cities.push(city);
+            localStorage.setItem("cities", JSON.stringify(cities));
+        }
+        createBtnSearchedCity();
     }
     else {
         var myModal = new bootstrap.Modal($('#modal-city-name'), {
@@ -63,6 +77,17 @@ btnSearchEl.on('click', function (event) {
     }
 
 })
+function createBtnSearchedCity() {
+
+    var cities = JSON.parse(localStorage.getItem("cities"));
+    var citybtnsEl = $('#city-buttons');
+    citybtnsEl.empty();
+    for (var i = 0; i < cities.length; i++) {
+        var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
+        citybtnsEl.append(btnCity);
+    }
+
+}
 var getFiveDayForecast = function (lon, lat) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
@@ -187,7 +212,7 @@ function displayWeather(weatherArray, weatherElId, date) {
     var weatherEl = $(weatherElId);
     weatherEl.html("");
     var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:#dee8f2">').text(date).addClass('left-margin'));
-    var imgEl = $('<img style="display:inline width:30px; height:30px">').attr('src', iconPath);
+    var imgEl = $('<img style="width:30px; height:30px">').attr('src', iconPath).addClass("mx-3");
     var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
     var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
