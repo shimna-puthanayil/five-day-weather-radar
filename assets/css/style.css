@@ -1,10 +1,14 @@
 :root {
-    --primary: #ccdcec;
-    --secondary: #9caea9;
+    --primary: #dee8f2;
+    --secondary: #b2c8dd;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
     --dark: #082f7bdf;
     --border-radius: .3rem;
+    --dark-color:linear-gradient(98deg,
+    rgba(65, 101, 156, 1) 24%,
+    rgba(8, 43, 87, 1) 73%);
+    
 }
 
 * {
@@ -21,13 +25,11 @@ body {
     font-size: 16px;
 }
 
-h1,
 h2,
-h3,
 h4,
-h5,
-h6 {
-    font-weight: 700;
+h5 {
+    font-weight: 500;
+    
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
@@ -49,7 +51,14 @@ main {
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+}
+
+header {
+    padding: 1% 1%;
+    background: var(--dark-color);
+    background-blend-mode: normal;
+    color: var(--primary);
 }
 
 .btn {
@@ -63,7 +72,7 @@ p {
     color: var(--primary);
     border: none;
     outline: none;
-    background-color: var(--light-dark);
+    background-color: var(--dark-color);
     box-shadow: 3px 3px var(--dark);
     transform: translate(-1px, -1px);
 }
@@ -76,20 +85,17 @@ p {
 }
 
 .btnSearch {
-    background-color: var(--dark);
-}
-header {
-    padding: 1% 1%;
-    background-color: var(--dark);
-    color: var(--primary);
+    background-color: var(--light-dark);
 }
 
 .app-title {
-    font-size: 3rem;
+    font-size: 2rem;
     color: var(--primary);
     text-align: center;
     padding: 0 10px;
+    padding-left: 350px;
     display: block;
+
 }
 
 /* CARDS */
@@ -98,35 +104,41 @@ header {
     /* border: 3px solid var(--dark); */
     border-radius: var(--border-radius);
     background-color: var(--primary);
-}  
+}
 
 .card-header {
     color: var(--dark);
     font-size: 30px;
-   
+
     padding-left: 10px;
-  
+
 }
 
 .card-body {
-    padding:0 2.5% ;
-} 
-.width-card{
-    width:170px;
-    background-color:#3b4967;
+    padding: 0 2.5%;
+}
+
+.width-card {
+    width: 170px;
+    background-color: #3b4967;
     color: var(--primary);
 }
-.current-weather{
-    border: solid #3b4967;
-    width: 950px;
-    background-color: var(--primary);
+
+.current-weather {
+    border: solid var(--dark);
+    width: auto;
+    padding-left: 5px;
+    background-color: var(--secondary);
 }
+
 /* FORM */
+
 .form-label,
-.form-input,
-.form-textarea {
+.form-input
+ {
     display: block;
 }
+
 .form-label {
     font-size: 1.1rem;
     margin: 0 0 0 5px;
@@ -136,7 +148,7 @@ header {
     width: 100%;
     padding: 3%;
     margin: 5px 0;
-    font-size:1rem;
+    font-size: 1rem;
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
 }
@@ -158,6 +170,10 @@ header {
     flex-wrap: wrap;
 }
 
-.left-margin{
-margin-left: 10px;
+.left-margin {
+    margin-left: 10px;
+}
+
+.margin-left {
+    margin-left: 100px;
 }

@@ -23,8 +23,8 @@ var displayCurrentWeather = function (weather) {
     }
     var lon = weather.coord.lon;
     var lat = weather.coord.lat;
-    // var currentWeather = weather.weather[0].main;
     var icon = weather.weather[0].icon;
+    var iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
     var currentTemp = weather.main.temp;
     var humidity = weather.main.humidity;
     var wind = weather.wind.speed;
@@ -33,8 +33,8 @@ var displayCurrentWeather = function (weather) {
     var city = weather.name;
     var currentWeatherEl = $('#current-weather');
     currentWeatherEl.html("");
-    var cityEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin'));
-    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+    var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin fw-bolder'));
+    var imgEl = $('<img style="display:inline width:30px; height:30px">').attr('src', iconUrl);
     cityEl.append(imgEl);
     var tempEl = $('<p>').text("Temp : " + Math.round(currentTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + wind + " MPH").addClass('left-margin');
@@ -46,14 +46,28 @@ var displayCurrentWeather = function (weather) {
     getFiveDayForecast(lon, lat);
 }
 getCurrentWeather(city);
+
+//search button click event
+
 var btnSearchEl = $('#btn-search');
 btnSearchEl.on('click', function (event) {
     event.preventDefault();
     var searchEl = $('#username');
     if (searchEl.val()) {
-
+        var cities = [];
         city = searchEl.val();
         getCurrentWeather(city);
+        var searchedCities = localStorage.getItem("cities");
+        if (searchedCities !== null) {
+            cities = JSON.parse(searchedCities);
+            cities.push(city);
+            localStorage.setItem("cities", JSON.stringify(cities));
+        }
+        else {
+            cities.push(city);
+            localStorage.setItem("cities", JSON.stringify(cities));
+        }
+        createBtnSearchedCity();
     }
     else {
         var myModal = new bootstrap.Modal($('#modal-city-name'), {
@@ -63,6 +77,17 @@ btnSearchEl.on('click', function (event) {
     }
 
 })
+function createBtnSearchedCity() {
+
+    var cities = JSON.parse(localStorage.getItem("cities"));
+    var citybtnsEl = $('#city-buttons');
+    citybtnsEl.empty();
+    for (var i = 0; i < cities.length; i++) {
+        var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
+        citybtnsEl.append(btnCity);
+    }
+
+}
 var getFiveDayForecast = function (lon, lat) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
@@ -85,6 +110,7 @@ var displayFiveDayForecast = function (list) {
         return;
     }
     var forecastDay = 0;
+    var day1Date, day2Date, day3Date, day4Date, day5Date;
     var firstDayWeather = [[], [], [], []];
     var secondDayWeather = [[], [], [], []];
     var thirdDayWeather = [[], [], [], []];
@@ -94,7 +120,7 @@ var displayFiveDayForecast = function (list) {
     var today = dayjs().format("YYYY-MM-DD");
     for (var i = 0; i < list.length; i++) {
 
-        var icon = list[i].icon;
+        var icon = list[i].weather[0].icon;
         var temperature = list[i].main.temp;
         var humidity = list[i].main.humidity;
         var wind = list[i].wind.speed;
@@ -108,136 +134,64 @@ var displayFiveDayForecast = function (list) {
             case 1: firstDayWeather[0].push(temperature);
                 firstDayWeather[1].push(wind);
                 firstDayWeather[2].push(humidity);
-                firstDayWeather[3].push(forecastDate);
+                firstDayWeather[3].push(icon);
+                day1Date = dayjs(forecastDate).format("DD/MM/YYYY");
                 break;
             case 2: secondDayWeather[0].push(temperature);
                 secondDayWeather[1].push(wind);
                 secondDayWeather[2].push(humidity);
-                secondDayWeather[3].push(forecastDate);
+                secondDayWeather[3].push(icon);
+                day2Date = dayjs(forecastDate).format("DD/MM/YYYY");
                 break;
             case 3: thirdDayWeather[0].push(temperature);
                 thirdDayWeather[1].push(wind);
                 thirdDayWeather[2].push(humidity);
-                thirdDayWeather[3].push(forecastDate);
+                thirdDayWeather[3].push(icon);
+                day3Date = dayjs(forecastDate).format("DD/MM/YYYY");
                 break;
             case 4: fourthDayWeather[0].push(temperature);
                 fourthDayWeather[1].push(wind);
                 fourthDayWeather[2].push(humidity);
-                fourthDayWeather[3].push(forecastDate);
+                fourthDayWeather[3].push(icon);
+                day4Date = dayjs(forecastDate).format("DD/MM/YYYY");
                 break;
             case 5: fifthDayWeather[0].push(temperature);
                 fifthDayWeather[1].push(wind);
                 fifthDayWeather[2].push(humidity);
-                fifthDayWeather[3].push(forecastDate);
-
+                fifthDayWeather[3].push(icon);
+                day5Date = dayjs(forecastDate).format("DD/MM/YYYY");
                 break;
             default: break;
         }
 
     }
-    console.log(fifthDayWeather[0]);
+
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
-                var maxTemp = Math.max(...firstDayWeather[0]);
-                var maxWind = Math.max(...firstDayWeather[1]);
-                var maxHumidity = Math.max(...firstDayWeather[2]);
-                var weatherEl = $('#day1-weather');
-                weatherEl.html("");
-                var date = dayjs(firstDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline; color:white">').text(date).addClass('left-margin'));
-                // var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-                // cityEl.append(imgEl);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
-
+                displayWeather(firstDayWeather, "#day1-weather", day1Date);
                 break;
             case 2:
-                var maxTemp = Math.max(...secondDayWeather[0]);
-                var maxWind = Math.max(...secondDayWeather[1]);
-                var maxHumidity = Math.max(...secondDayWeather[2]);
-                var weatherEl = $('#day2-weather');
-                weatherEl.html("");
-                var date = dayjs(secondDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
-                // var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-                // cityEl.append(imgEl);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(secondDayWeather, "#day2-weather", day2Date);
                 break;
             case 3:
-                var maxTemp = Math.max(...thirdDayWeather[0]);
-                var maxWind = Math.max(...thirdDayWeather[1]);
-                var maxHumidity = Math.max(...thirdDayWeather[2]);
-                var weatherEl = $('#day3-weather');
-                weatherEl.html("");
-                var date = dayjs(thirdDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
-                // var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-                // cityEl.append(imgEl);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(thirdDayWeather, "#day3-weather", day3Date);
                 break;
             case 4:
-
-                var maxTemp = Math.max(...fourthDayWeather[0]);
-                var maxWind = Math.max(...fourthDayWeather[1]);
-                var maxHumidity = Math.max(...fourthDayWeather[2]);
-                var weatherEl = $('#day4-weather');
-                weatherEl.html("");
-                var date = dayjs(fourthDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
-                // var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-                // cityEl.append(imgEl);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(fourthDayWeather, "#day4-weather", day4Date);
                 break;
             case 5:
-                var weatherEl = $('#day5-weather');
-                var date = dayjs(fifthDayWeather[3][0]).format("DD/MM/YYYY");
                 if (fifthDayWeather[0].length !== 0) {
-                    var maxTemp = Math.max(...fifthDayWeather[0]);
-                    var maxWind = Math.max(...fifthDayWeather[1]);
-                    var maxHumidity = Math.max(...fifthDayWeather[2]);
-                    weatherEl.html("");
-                    var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
-                    // var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-                    // cityEl.append(imgEl);
-                    var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                    var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                    var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                    weatherEl.append(dateEl);
-                    weatherEl.append(tempEl);
-                    weatherEl.append(windEl);
-                    weatherEl.append(humidityEl);
+                    displayWeather(fifthDayWeather, "#day5-weather", day5Date);
                 }
                 else {
+                    var weatherEl = $('#day5-weather');
                     var dt = dayjs().format("DD");
                     var dayFive = parseInt(dt) + 5;
                     var month = dayjs().format("MM");
                     var year = dayjs().format("YYYY");
                     var date = dayFive + '/' + month + '/' + year;
-                    var dateEl = $('<p>').append($('<h4 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
+                    var dateEl = $('<p>').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
                     var noDataEl = $('<p>').append($('<p>').text("No Data Available").addClass('left-margin'));
                     weatherEl.append(dateEl);
                     weatherEl.append(noDataEl);
@@ -247,4 +201,24 @@ var displayFiveDayForecast = function (list) {
                 break;
         }
     }
+}
+function displayWeather(weatherArray, weatherElId, date) {
+    var maxTemp = Math.max(...weatherArray[0]);
+    var maxWind = Math.max(...weatherArray[1]);
+    var index = weatherArray[0].indexOf(maxTemp);
+    var icon = weatherArray[3][index];
+    var humidity = weatherArray[2][index];
+    var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+    var weatherEl = $(weatherElId);
+    weatherEl.html("");
+    var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:#dee8f2">').text(date).addClass('left-margin'));
+    var imgEl = $('<img style="width:30px; height:30px">').attr('src', iconPath).addClass("mx-3");
+    var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
+    var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
+    var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
+    weatherEl.append(dateEl);
+    weatherEl.append(imgEl);
+    weatherEl.append(tempEl);
+    weatherEl.append(windEl);
+    weatherEl.append(humidityEl);
 }
