@@ -1,6 +1,6 @@
 :root {
     --primary: #dee8f2;
-    --secondary: #9caea9;
+    --secondary: #b2c8dd;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
     --dark: #082f7bdf;
@@ -31,7 +31,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 700;
+    font-weight: 500;
+    
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
@@ -53,7 +54,7 @@ main {
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .btn {
@@ -91,11 +92,13 @@ header {
 }
 
 .app-title {
-    font-size: 3rem;
+    font-size: 2rem;
     color: var(--primary);
     text-align: center;
     padding: 0 10px;
+    padding-left: 350px;
     display: block;
+
 }
 
 /* CARDS */
@@ -125,9 +128,10 @@ header {
 }
 
 .current-weather {
-    border: solid #3b4967;
-    width: 950px;
-    background-color: var(--primary);
+    border: solid var(--dark);
+    width: auto;
+    padding-left: 5px;
+    background-color: var(--secondary);
 }
 
 /* FORM */
@@ -175,4 +179,7 @@ header {
 .margin-left {
     margin-left: 100px;
 }
-
+/* .margin-right-left{
+    margin-right: 40px;
+    margin-left: 40px;
+} */

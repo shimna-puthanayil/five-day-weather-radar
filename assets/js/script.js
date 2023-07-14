@@ -23,7 +23,6 @@ var displayCurrentWeather = function (weather) {
     }
     var lon = weather.coord.lon;
     var lat = weather.coord.lat;
-    // var currentWeather = weather.weather[0].main;
     var icon = weather.weather[0].icon;
     var iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
     var currentTemp = weather.main.temp;
@@ -34,8 +33,8 @@ var displayCurrentWeather = function (weather) {
     var city = weather.name;
     var currentWeatherEl = $('#current-weather');
     currentWeatherEl.html("");
-    var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin'));
-    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconUrl);
+    var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin fw-bolder'));
+    var imgEl = $('<img style="display:inline width:30px; height:30px">').attr('src', iconUrl);
     cityEl.append(imgEl);
     var tempEl = $('<p>').text("Temp : " + Math.round(currentTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + wind + " MPH").addClass('left-margin');
@@ -188,7 +187,7 @@ function displayWeather(weatherArray, weatherElId, date) {
     var weatherEl = $(weatherElId);
     weatherEl.html("");
     var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:#dee8f2">').text(date).addClass('left-margin'));
-    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
+    var imgEl = $('<img style="display:inline width:30px; height:30px">').attr('src', iconPath);
     var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
     var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');

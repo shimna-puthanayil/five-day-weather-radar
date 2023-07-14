@@ -12,14 +12,14 @@
 
 <body class="flex-column min-100-vh">
     <header>
-        <h1 class="app-title"> Weather Dashboard</h1>
+        <h2 class="app-title"> Weather Dashboard</h2>
     </header>
 
-    <main class="flex-row ">
+    <main class="flex-row">
         <div class="col-12 col-sm-3">
 
             <div>
-                <h2 class="mx-2">Search for a City:</h2>
+                <h4 class="mx-2 fw-bolder">Search for a City:</h4>
                 <form id="user-form" class="card-body">
                     <input name="username" id="username" type="text" autofocus="true" class="form-input" />
                     <button id="btn-search" type="submit" class="btn btnSearch" >Search</button>
@@ -47,17 +47,19 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-9 col-lg-9">
-            <div class="mx-5 my-3 ">
-                <div class="card current-weather">
-                    <p id="current-weather" class="card-text">
-                    </p>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9 ">
+            
             <div class="container">
+               
                 <section class="row justify-content-evenly">
-
-                    <div class="col-12 col-sm-6 col-lg-2 mt-3 ">
+                    <div class="mx-6 my-3 col-12 col-sm-9 col-lg-12 ">
+                        <div class="card current-weather">
+                            <p id="current-weather" class="card-text">
+                            </p>
+                        </div>
+                    </div>
+                    <h5 class="ms-4 fw-bolder">5-Day Forecast</h5>
+                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
                         <div class="card width-card">
                             <!-- <h3 class="card-header">
                             </h3> -->
@@ -68,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-2 mt-3">
+                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
                         <div class="card width-card">
                             <!-- <h3 class="card-header ">
                             </h3> -->
@@ -79,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-2 mt-3">
+                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
                         <div class="card width-card">
                             <!-- <h3 class="card-header ">
                             </h3> -->
@@ -89,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-2 mt-3">
+                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
                         <div class="card width-card">
                             <!-- <h3 class="card-header ">
                             </h3> -->
@@ -99,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-2 mt-3">
+                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-0 ps-0 ">
                         <div class="card width-card">
                             <!-- <h3 class="card-header ">
                             </h3> -->
