@@ -1,10 +1,14 @@
 :root {
-    --primary: #ccdcec;
+    --primary: #dee8f2;
     --secondary: #9caea9;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
     --dark: #082f7bdf;
     --border-radius: .3rem;
+    --dark-color:linear-gradient(98deg,
+    rgba(65, 101, 156, 1) 24%,
+    rgba(8, 43, 87, 1) 73%);
+    
 }
 
 * {
@@ -63,7 +67,7 @@ p {
     color: var(--primary);
     border: none;
     outline: none;
-    background-color: var(--light-dark);
+    background-color: var(--dark-color);
     box-shadow: 3px 3px var(--dark);
     transform: translate(-1px, -1px);
 }
@@ -76,11 +80,13 @@ p {
 }
 
 .btnSearch {
-    background-color: var(--dark);
+    background-color: var(--light-dark);
 }
+
 header {
     padding: 1% 1%;
-    background-color: var(--dark);
+    background: var(--dark-color);
+    background-blend-mode: normal;
     color: var(--primary);
 }
 
@@ -98,35 +104,39 @@ header {
     /* border: 3px solid var(--dark); */
     border-radius: var(--border-radius);
     background-color: var(--primary);
-}  
+}
 
 .card-header {
     color: var(--dark);
     font-size: 30px;
-   
+
     padding-left: 10px;
-  
+
 }
 
 .card-body {
-    padding:0 2.5% ;
-} 
-.width-card{
-    width:170px;
-    background-color:#3b4967;
+    padding: 0 2.5%;
+}
+
+.width-card {
+    width: 170px;
+    background-color: #3b4967;
     color: var(--primary);
 }
-.current-weather{
+
+.current-weather {
     border: solid #3b4967;
     width: 950px;
     background-color: var(--primary);
 }
+
 /* FORM */
 .form-label,
 .form-input,
 .form-textarea {
     display: block;
 }
+
 .form-label {
     font-size: 1.1rem;
     margin: 0 0 0 5px;
@@ -136,7 +146,7 @@ header {
     width: 100%;
     padding: 3%;
     margin: 5px 0;
-    font-size:1rem;
+    font-size: 1rem;
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
 }
@@ -158,9 +168,11 @@ header {
     flex-wrap: wrap;
 }
 
-.left-margin{
-margin-left: 10px;
+.left-margin {
+    margin-left: 10px;
 }
-.margin-left{
+
+.margin-left {
     margin-left: 100px;
-    }
+}
+

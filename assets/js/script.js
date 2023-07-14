@@ -145,129 +145,23 @@ var displayFiveDayForecast = function (list) {
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
-                var maxTemp = Math.max(...firstDayWeather[0]);
-                var maxWind = Math.max(...firstDayWeather[1]);
-                var maxHumidity = Math.max(...firstDayWeather[2]);
-                var index = firstDayWeather[0].indexOf(maxTemp);
-                var icon = firstDayWeather[3][index];
-                console.log(firstDayWeather[0]);
-                console.log(firstDayWeather[3]);
-                console.log(icon);
-                var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-                var weatherEl = $('#day1-weather');
-                weatherEl.html("");
-                var date = dayjs(firstDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:white">').text(day1Date).addClass('left-margin'));
-                var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(imgEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
-
+                displayWeather(firstDayWeather, "#day1-weather", day1Date);
                 break;
             case 2:
-                var maxTemp = Math.max(...secondDayWeather[0]);
-                var maxWind = Math.max(...secondDayWeather[1]);
-                var maxHumidity = Math.max(...secondDayWeather[2]);
-                var index = secondDayWeather[0].indexOf(maxTemp);
-                var icon = secondDayWeather[3][index];
-                console.log(secondDayWeather[0]);
-                console.log(secondDayWeather[3]);
-                console.log(icon);
-                var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-                var weatherEl = $('#day2-weather');
-                weatherEl.html("");
-                var date = dayjs(secondDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(day2Date).addClass('left-margin'));
-                var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(imgEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(secondDayWeather, "#day2-weather", day2Date);
                 break;
             case 3:
-                var maxTemp = Math.max(...thirdDayWeather[0]);
-                var maxWind = Math.max(...thirdDayWeather[1]);
-                var maxHumidity = Math.max(...thirdDayWeather[2]);
-                var index = thirdDayWeather[0].indexOf(maxTemp);
-                var icon = thirdDayWeather[3][index];
-                console.log(thirdDayWeather[0]);
-                console.log(thirdDayWeather[3]);
-                console.log(icon);
-                var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-                var weatherEl = $('#day3-weather');
-                weatherEl.html("");
-                var date = dayjs(thirdDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(day3Date).addClass('left-margin'));
-                var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src',iconPath);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(imgEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(thirdDayWeather, "#day3-weather", day3Date);
                 break;
             case 4:
-
-                var maxTemp = Math.max(...fourthDayWeather[0]);
-                var maxWind = Math.max(...fourthDayWeather[1]);
-                var maxHumidity = Math.max(...fourthDayWeather[2]);
-                var index = fourthDayWeather[0].indexOf(maxTemp);
-                var icon = fourthDayWeather[3][index];
-                console.log(fourthDayWeather[0]);
-                console.log(fourthDayWeather[3]);
-                console.log(icon);
-                var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-                var weatherEl = $('#day4-weather');
-                weatherEl.html("");
-                var date = dayjs(fourthDayWeather[3][0]).format("DD/MM/YYYY");
-                var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(day4Date).addClass('left-margin'));
-                var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
-                var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                weatherEl.append(dateEl);
-                weatherEl.append(imgEl);
-                weatherEl.append(tempEl);
-                weatherEl.append(windEl);
-                weatherEl.append(humidityEl);
+                displayWeather(fourthDayWeather, "#day4-weather", day4Date);
                 break;
             case 5:
-                var weatherEl = $('#day5-weather');
-                var date = dayjs(fifthDayWeather[3][0]).format("DD/MM/YYYY");
                 if (fifthDayWeather[0].length !== 0) {
-                    var maxTemp = Math.max(...fifthDayWeather[0]);
-                    var maxWind = Math.max(...fifthDayWeather[1]);
-                    var maxHumidity = Math.max(...fifthDayWeather[2]);
-                    var index = fifthDayWeather[0].indexOf(maxTemp);
-                    var icon = fifthDayWeather[3][index];
-                    console.log(fifthDayWeather[0]);
-                    console.log(fifthDayWeather[3]);
-                    console.log(icon);
-                    var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-                    weatherEl.html("");
-                    var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(day5Date).addClass('left-margin'));
-                    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
-                    var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
-                    var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
-                    var humidityEl = $('<p>').text("Humidity  : " + maxHumidity + '%').addClass('left-margin');
-                    weatherEl.append(dateEl);
-                    weatherEl.append(imgEl);
-                    weatherEl.append(tempEl);
-                    weatherEl.append(windEl);
-                    weatherEl.append(humidityEl);
+                    displayWeather(fifthDayWeather, "#day5-weather", day5Date);
                 }
                 else {
+                    var weatherEl = $('#day5-weather');
                     var dt = dayjs().format("DD");
                     var dayFive = parseInt(dt) + 5;
                     var month = dayjs().format("MM");
@@ -283,4 +177,24 @@ var displayFiveDayForecast = function (list) {
                 break;
         }
     }
+}
+function displayWeather(weatherArray, weatherElId, date) {
+    var maxTemp = Math.max(...weatherArray[0]);
+    var maxWind = Math.max(...weatherArray[1]);
+    var index = weatherArray[0].indexOf(maxTemp);
+    var icon = weatherArray[3][index];
+    var humidity = weatherArray[2][index];
+    var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+    var weatherEl = $(weatherElId);
+    weatherEl.html("");
+    var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:#dee8f2">').text(date).addClass('left-margin'));
+    var imgEl = $('<img style="display:inline width:30px; height:40px">').attr('src', iconPath);
+    var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
+    var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
+    var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
+    weatherEl.append(dateEl);
+    weatherEl.append(imgEl);
+    weatherEl.append(tempEl);
+    weatherEl.append(windEl);
+    weatherEl.append(humidityEl);
 }
