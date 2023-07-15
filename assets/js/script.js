@@ -1,6 +1,7 @@
 var apiKey = '8c1111d0cda691e591dcf0850684c969';
 var city = "Sydney";
 var isReturned = false;
+
 var getCurrentWeather = function (city) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
@@ -17,7 +18,6 @@ var getCurrentWeather = function (city) {
                 $('.modal-body').text(response.statusText);
                 $('.modal-title').text("Error ");
                 myModal.show();
-                // isReturned=false;
             }
         })
         .catch(function (error) {
@@ -38,7 +38,7 @@ var displayCurrentWeather = function (weather) {
     var wind = weather.wind.speed;
     var currentTime = weather.dt;
     var date = dayjs.unix(currentTime).format("DD/MM/YYYY");
-    var city = weather.name;
+    city = weather.name;
     var currentWeatherEl = $('#current-weather');
     currentWeatherEl.html("");
     var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin fw-bolder'));
@@ -81,36 +81,22 @@ btnSearchEl.on('click', function (event) {
 });
 function addToLocalStorage() {
     var searchedCities = localStorage.getItem("cities");
-    var cities=[];
+    var cities = [];
     if (searchedCities !== null) {
         cities = JSON.parse(searchedCities);
         if (cities.indexOf(city) === -1) {
-            // cities.push(city);
-            cities.splice(0,0,city);
-            if (isReturned === true) {
 
-                
-                // var cityArray = [];
-                // var j = 0;
-                // for (var i = 1; i <= cities.length; i++) {
-                //     cityArray[j] = cities[cities.length - i];
-                //     j++;
-                // }
+            if (isReturned === true) {
+                cities.splice(0, 0, city);
                 localStorage.setItem("cities", JSON.stringify(cities));
             }
         }
     }
     else {
-       
-        cities.push(city);
+
+
         if (isReturned === true) {
-           
-            // var cityArray = [];
-            // var j = 0;
-            // for (var i = 1; i <= cities.length; i++) {
-            //     cityArray[j] = cities[cities.length - i];
-            //     j++;
-            // }
+            cities.push(city);
             localStorage.setItem("cities", JSON.stringify(cities));
         }
     }
@@ -123,11 +109,20 @@ function createBtnSearchedCity() {
     citybtnsEl.empty();
     if (cities != null) {
         for (var i = 0; i < cities.length; i++) {
-            var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
+            var btnCity = $('<button data-city="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
             citybtnsEl.append(btnCity);
         }
     }
 }
+
+var cityButtonEl = $("#city-buttons");
+cityButtonEl.on('click',  function (event) {
+    var clickedCity = event.target.getAttribute('data-city');
+
+    if (clickedCity) {
+        getCurrentWeather(clickedCity);
+    }
+});
 
 var getFiveDayForecast = function (lon, lat) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=Imperial&appid=' + apiKey;
