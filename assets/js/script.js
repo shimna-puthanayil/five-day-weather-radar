@@ -1,19 +1,27 @@
 var apiKey = '8c1111d0cda691e591dcf0850684c969';
 var city = "Sydney";
+var isReturned=false;
 var getCurrentWeather = function (city) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
         .then(function (response) {
             if (response.ok) {
-
                 response.json().then(function (data) {
                     displayCurrentWeather(data);
+                    isReturned=true;
                 });
             } else {
+                  var myModal = new bootstrap.Modal($('#modal-city-name'), {
+                    focus: true
+                });
+                $('.modal-body').text(response.statusText);
+                $('.modal-title').text("Error ");
+                myModal.show();
+                // isReturned=false;
             }
         })
         .catch(function (error) {
-
+        
         });
 };
 var displayCurrentWeather = function (weather) {
@@ -44,6 +52,7 @@ var displayCurrentWeather = function (weather) {
     currentWeatherEl.append(windEl);
     currentWeatherEl.append(humidityEl);
     getFiveDayForecast(lon, lat);
+    addToLocalStorage();
 }
 
 //search button click event
@@ -51,34 +60,45 @@ var displayCurrentWeather = function (weather) {
 var btnSearchEl = $('#btn-search');
 btnSearchEl.on('click', function (event) {
     event.preventDefault();
+   
     var searchEl = $('#username');
     if (searchEl.val()) {
         var cities = [];
         city = searchEl.val();
         getCurrentWeather(city);
-        var searchedCities = localStorage.getItem("cities");
-        if (searchedCities !== null) {
-            cities = JSON.parse(searchedCities);
-            console.log("index is "+cities.indexOf(city));
-            if (cities.indexOf(city)===-1) {
-                cities.push(city);
-                localStorage.setItem("cities", JSON.stringify(cities));
-            }
-        }
-        else {
-            cities.push(city);
-            localStorage.setItem("cities", JSON.stringify(cities));
-        }
-        createBtnSearchedCity();
+       console.log(isReturned);
+      
     }
     else {
         var myModal = new bootstrap.Modal($('#modal-city-name'), {
             focus: true
         });
+        $('.modal-title').text("Required ");
+        $('.modal-body').text("Please enter city name ! ");
         myModal.show();
     }
 
-})
+});
+function addToLocalStorage()
+{
+    var searchedCities = localStorage.getItem("cities");
+    if (searchedCities !== null) {
+        cities = JSON.parse(searchedCities);
+        if (cities.indexOf(city)===-1) {
+            cities.push(city);
+            if(isReturned===true){
+            localStorage.setItem("cities", JSON.stringify(cities));
+            }
+        }
+    }
+    else {
+        cities.push(city);
+        if(isReturned===true){
+        localStorage.setItem("cities", JSON.stringify(cities));
+        }
+    }
+    createBtnSearchedCity();
+}
 function createBtnSearchedCity() {
 
     var cities = JSON.parse(localStorage.getItem("cities"));
@@ -131,10 +151,10 @@ var displayFiveDayForecast = function (list) {
         var wind = list[i].wind.speed;
         var forecastTime = list[i].dt;
         var forecastDate = dayjs.unix(forecastTime).format("YYYY-MM-DD");
-        var date = new Date((list[i].dt)* 1000).toLocaleDateString();
+        // var date = new Date((list[i].dt)* 1000).toLocaleDateString();
         console.log("dt field  "+forecastDate);
-        console.log("dt_txt field  "+list[i].dt_txt);
-        console.log("date "+date);
+        // console.log("dt_txt field  "+list[i].dt_txt);
+        // console.log("date "+date);
         const date1 = dayjs(forecastDate);
         const date2 = dayjs(today);
         var diffInDays = date1.diff(date2, 'day');
@@ -174,7 +194,11 @@ var displayFiveDayForecast = function (list) {
         }
 
     }
-
+console.log(firstDayWeather[3]);
+console.log(secondDayWeather[3]);
+console.log(thirdDayWeather[3]);
+console.log(fourthDayWeather[3]);
+console.log(fifthDayWeather[3]);
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
