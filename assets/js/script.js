@@ -1,6 +1,6 @@
 var apiKey = '8c1111d0cda691e591dcf0850684c969';
 var city = "Sydney";
-var isReturned=false;
+var isReturned = false;
 var getCurrentWeather = function (city) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
@@ -8,10 +8,10 @@ var getCurrentWeather = function (city) {
             if (response.ok) {
                 response.json().then(function (data) {
                     displayCurrentWeather(data);
-                    isReturned=true;
+                    isReturned = true;
                 });
             } else {
-                  var myModal = new bootstrap.Modal($('#modal-city-name'), {
+                var myModal = new bootstrap.Modal($('#modal-city-name'), {
                     focus: true
                 });
                 $('.modal-body').text(response.statusText);
@@ -21,7 +21,7 @@ var getCurrentWeather = function (city) {
             }
         })
         .catch(function (error) {
-        
+
         });
 };
 var displayCurrentWeather = function (weather) {
@@ -60,14 +60,14 @@ var displayCurrentWeather = function (weather) {
 var btnSearchEl = $('#btn-search');
 btnSearchEl.on('click', function (event) {
     event.preventDefault();
-   
+
     var searchEl = $('#username');
     if (searchEl.val()) {
         var cities = [];
         city = searchEl.val();
         getCurrentWeather(city);
-       console.log(isReturned);
-      
+        console.log(isReturned);
+
     }
     else {
         var myModal = new bootstrap.Modal($('#modal-city-name'), {
@@ -79,22 +79,39 @@ btnSearchEl.on('click', function (event) {
     }
 
 });
-function addToLocalStorage()
-{
+function addToLocalStorage() {
     var searchedCities = localStorage.getItem("cities");
+    var cities=[];
     if (searchedCities !== null) {
         cities = JSON.parse(searchedCities);
-        if (cities.indexOf(city)===-1) {
-            cities.push(city);
-            if(isReturned===true){
-            localStorage.setItem("cities", JSON.stringify(cities));
+        if (cities.indexOf(city) === -1) {
+            // cities.push(city);
+            cities.splice(0,0,city);
+            if (isReturned === true) {
+
+                
+                // var cityArray = [];
+                // var j = 0;
+                // for (var i = 1; i <= cities.length; i++) {
+                //     cityArray[j] = cities[cities.length - i];
+                //     j++;
+                // }
+                localStorage.setItem("cities", JSON.stringify(cities));
             }
         }
     }
     else {
+       
         cities.push(city);
-        if(isReturned===true){
-        localStorage.setItem("cities", JSON.stringify(cities));
+        if (isReturned === true) {
+           
+            // var cityArray = [];
+            // var j = 0;
+            // for (var i = 1; i <= cities.length; i++) {
+            //     cityArray[j] = cities[cities.length - i];
+            //     j++;
+            // }
+            localStorage.setItem("cities", JSON.stringify(cities));
         }
     }
     createBtnSearchedCity();
@@ -104,12 +121,12 @@ function createBtnSearchedCity() {
     var cities = JSON.parse(localStorage.getItem("cities"));
     var citybtnsEl = $('#city-buttons');
     citybtnsEl.empty();
-    if(cities!=null){
-    for (var i = 0; i < cities.length; i++) {
-        var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
-        citybtnsEl.append(btnCity);
+    if (cities != null) {
+        for (var i = 0; i < cities.length; i++) {
+            var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
+            citybtnsEl.append(btnCity);
+        }
     }
-}
 }
 
 var getFiveDayForecast = function (lon, lat) {
@@ -152,7 +169,7 @@ var displayFiveDayForecast = function (list) {
         var forecastTime = list[i].dt;
         var forecastDate = dayjs.unix(forecastTime).format("YYYY-MM-DD");
         // var date = new Date((list[i].dt)* 1000).toLocaleDateString();
-        console.log("dt field  "+forecastDate);
+        console.log("dt field  " + forecastDate);
         // console.log("dt_txt field  "+list[i].dt_txt);
         // console.log("date "+date);
         const date1 = dayjs(forecastDate);
@@ -194,11 +211,11 @@ var displayFiveDayForecast = function (list) {
         }
 
     }
-console.log(firstDayWeather[3]);
-console.log(secondDayWeather[3]);
-console.log(thirdDayWeather[3]);
-console.log(fourthDayWeather[3]);
-console.log(fifthDayWeather[3]);
+    // console.log(firstDayWeather[3]);
+    // console.log(secondDayWeather[3]);
+    // console.log(thirdDayWeather[3]);
+    // console.log(fourthDayWeather[3]);
+    // console.log(fifthDayWeather[3]);
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
