@@ -45,7 +45,6 @@ var displayCurrentWeather = function (weather) {
     currentWeatherEl.append(humidityEl);
     getFiveDayForecast(lon, lat);
 }
-getCurrentWeather(city);
 
 //search button click event
 
@@ -60,8 +59,11 @@ btnSearchEl.on('click', function (event) {
         var searchedCities = localStorage.getItem("cities");
         if (searchedCities !== null) {
             cities = JSON.parse(searchedCities);
-            cities.push(city);
-            localStorage.setItem("cities", JSON.stringify(cities));
+            console.log("index is "+cities.indexOf(city));
+            if (cities.indexOf(city)===-1) {
+                cities.push(city);
+                localStorage.setItem("cities", JSON.stringify(cities));
+            }
         }
         else {
             cities.push(city);
@@ -82,14 +84,17 @@ function createBtnSearchedCity() {
     var cities = JSON.parse(localStorage.getItem("cities"));
     var citybtnsEl = $('#city-buttons');
     citybtnsEl.empty();
+    if(cities!=null){
     for (var i = 0; i < cities.length; i++) {
         var btnCity = $('<button id="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
         citybtnsEl.append(btnCity);
     }
-
 }
+}
+
 var getFiveDayForecast = function (lon, lat) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=Imperial&appid=' + apiKey;
+    // var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=51.5073219&lon=-0.1276474&units=Imperial&appid=8c1111d0cda691e591dcf0850684c969';
     fetch(apiUrl, { cache: 'reload' })
         .then(function (response) {
             if (response.ok) {
@@ -126,10 +131,14 @@ var displayFiveDayForecast = function (list) {
         var wind = list[i].wind.speed;
         var forecastTime = list[i].dt;
         var forecastDate = dayjs.unix(forecastTime).format("YYYY-MM-DD");
+        var date = new Date((list[i].dt)* 1000).toLocaleDateString();
+        console.log("dt field  "+forecastDate);
+        console.log("dt_txt field  "+list[i].dt_txt);
+        console.log("date "+date);
         const date1 = dayjs(forecastDate);
         const date2 = dayjs(today);
         var diffInDays = date1.diff(date2, 'day');
-        console.log(diffInDays);
+        // console.log(diffInDays);
         switch (diffInDays) {
             case 1: firstDayWeather[0].push(temperature);
                 firstDayWeather[1].push(wind);
@@ -185,13 +194,17 @@ var displayFiveDayForecast = function (list) {
                     displayWeather(fifthDayWeather, "#day5-weather", day5Date);
                 }
                 else {
+                    // when the user searches for weather at 12.00 am  or just after  12.00 a.m , then data wont be available for 5 th day. 
+                    //The time stamps(total count 40) start with the current day.So all the first 8 time stamps in the response of forecast falls under current day. 
+                    //So no data will be available for 5 th day.
                     var weatherEl = $('#day5-weather');
                     var dt = dayjs().format("DD");
                     var dayFive = parseInt(dt) + 5;
                     var month = dayjs().format("MM");
                     var year = dayjs().format("YYYY");
                     var date = dayFive + '/' + month + '/' + year;
-                    var dateEl = $('<p>').append($('<h5 style="margin-top:10px; display:inline;color:white">').text(date).addClass('left-margin'));
+                    var dateEl = $('<p style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:#dee8f2">').text(date).addClass('left-margin'));
+                    //adding text "No Data Available"
                     var noDataEl = $('<p>').append($('<p>').text("No Data Available").addClass('left-margin'));
                     weatherEl.append(dateEl);
                     weatherEl.append(noDataEl);
@@ -222,3 +235,9 @@ function displayWeather(weatherArray, weatherElId, date) {
     weatherEl.append(windEl);
     weatherEl.append(humidityEl);
 }
+
+function init() {
+    getCurrentWeather(city);
+    createBtnSearchedCity();
+}
+init();

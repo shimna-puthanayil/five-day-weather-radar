@@ -1,6 +1,6 @@
 :root {
     --primary: #dee8f2;
-    --secondary: #b2c8dd;
+    --secondary: #b2c5dd;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
     --dark: #082f7bdf;
@@ -8,7 +8,7 @@
     --dark-color:linear-gradient(98deg,
     rgba(65, 101, 156, 1) 24%,
     rgba(8, 43, 87, 1) 73%);
-    
+   --button-color: radial-gradient(circle, rgba(240, 230, 140, 1) 0%, rgba(198, 147, 28, 0.954) 100%);
 }
 
 * {
