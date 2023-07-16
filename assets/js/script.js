@@ -8,8 +8,9 @@ var getCurrentWeather = function (city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    displayCurrentWeather(data);
                     isReturned = true;
+                    displayCurrentWeather(data);
+                    
                 });
             } else {
                 var myModal = new bootstrap.Modal($('#modal-city-name'), {
@@ -18,6 +19,7 @@ var getCurrentWeather = function (city) {
                 $('.modal-body').text(response.statusText);
                 $('.modal-title').text("Error ");
                 myModal.show();
+                document.location.assign('./index.html');
             }
         })
         .catch(function (error) {
@@ -87,14 +89,16 @@ function addToLocalStorage() {
         if (cities.indexOf(city) === -1) {
 
             if (isReturned === true) {
+               
                 cities.splice(0, 0, city);
+                if(cities.length>10){
+                   cities.splice(cities.length-1,1);
+            }
                 localStorage.setItem("cities", JSON.stringify(cities));
             }
         }
     }
     else {
-
-
         if (isReturned === true) {
             cities.push(city);
             localStorage.setItem("cities", JSON.stringify(cities));
@@ -102,6 +106,7 @@ function addToLocalStorage() {
     }
     createBtnSearchedCity();
 }
+//function to create searched city buttons
 function createBtnSearchedCity() {
 
     var cities = JSON.parse(localStorage.getItem("cities"));
@@ -109,12 +114,12 @@ function createBtnSearchedCity() {
     citybtnsEl.empty();
     if (cities != null) {
         for (var i = 0; i < cities.length; i++) {
-            var btnCity = $('<button data-city="' + cities[i] + '" type="submit" class="btn btnSearch" >' + cities[i] + '</button>');
+            var btnCity = $('<button data-city="' + cities[i] + '" type="submit" class="btn" >' + cities[i] + '</button>');
             citybtnsEl.append(btnCity);
         }
     }
 }
-
+//click event of the searched city buttons
 var cityButtonEl = $("#city-buttons");
 cityButtonEl.on('click',  function (event) {
     var clickedCity = event.target.getAttribute('data-city');
@@ -164,7 +169,7 @@ var displayFiveDayForecast = function (list) {
         var forecastTime = list[i].dt;
         var forecastDate = dayjs.unix(forecastTime).format("YYYY-MM-DD");
         // var date = new Date((list[i].dt)* 1000).toLocaleDateString();
-        console.log("dt field  " + forecastDate);
+        // console.log("dt field  " + forecastDate);
         // console.log("dt_txt field  "+list[i].dt_txt);
         // console.log("date "+date);
         const date1 = dayjs(forecastDate);
@@ -211,6 +216,8 @@ var displayFiveDayForecast = function (list) {
     // console.log(thirdDayWeather[3]);
     // console.log(fourthDayWeather[3]);
     // console.log(fifthDayWeather[3]);
+    // <h5 class="ms-4 fw-bolder">5-Day Forecast</h5>
+    // $('<h5>').text('5-Day Forecast').addClass('ms-4 fw-bolder');
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
@@ -234,6 +241,7 @@ var displayFiveDayForecast = function (list) {
                     //The time stamps(total count 40) start with the current day.So all the first 8 time stamps in the response of forecast falls under current day. 
                     //So no data will be available for 5 th day.
                     var weatherEl = $('#day5-weather');
+                    weatherEl.html("");
                     var dt = dayjs().format("DD");
                     var dayFive = parseInt(dt) + 5;
                     var month = dayjs().format("MM");
