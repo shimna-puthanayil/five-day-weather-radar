@@ -286,7 +286,7 @@ var displayFiveDayForecast = function (list) {
                     // when the user searches for weather at 12.00 am  or just after  12.00 a.m , then data wont be available for 5 th day. 
                     //The time stamps(total count 40) start with the current day.So all the first 8 time stamps in the response of forecast falls under current day. 
                     //So no data will be available for 5 th day.
-                    var weatherEl = $('#day5-weather');
+                    var weatherEl = $('#div-day5');
                     weatherEl.html("");
                     var dt = dayjs().format("DD");
                     var dayFive = parseInt(dt) + 5;
@@ -296,8 +296,14 @@ var displayFiveDayForecast = function (list) {
                     var dateEl = $('<p style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline;color:#dee8f2">').text(date).addClass('left-margin'));
                     //adding text "No Data Available"
                     var noDataEl = $('<p>').append($('<p>').text("No Data Available").addClass('left-margin'));
-                    weatherEl.append(dateEl);
-                    weatherEl.append(noDataEl);
+                    var divCardDayEl = $('<div class="card width-card">');
+                    var divCardBodyDayEl = $('<div class="card-body">');
+                    var divCardTextDayEl = $('<p id="day5-weather" class="card-text">');
+                    divCardTextDayEl.append(dateEl);
+                    divCardTextDayEl.append(noDataEl);
+                    divCardBodyDayEl.append(divCardTextDayEl);
+                    divCardDayEl.append(divCardBodyDayEl);
+                    weatherEl.append(divCardDayEl);
                 }
                 break;
             default:
