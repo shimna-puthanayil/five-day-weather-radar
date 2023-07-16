@@ -98,6 +98,7 @@ header {
 }
 
 /* CARDS */
+
 .card {
     margin: 0 0 0 0;
     border-radius: var(--border-radius);
@@ -122,13 +123,6 @@ header {
     color: var(--primary);
 }
 
-.current-weather {
-    border: solid var(--dark);
-    width: auto;
-    padding-left: 5px;
-    background-color: var(--secondary);
-}
-
 /* FORM */
 
 .form-label,
@@ -151,11 +145,13 @@ header {
 }
 
 /* HEIGHT / WIDTH UTILS */
+
 .min-100-vh {
     min-height: 100vh;
 }
 
 /*------------ FLEX CONTENT -----------*/
+
 .flex-row {
     display: flex;
     flex-wrap: wrap;
@@ -167,6 +163,7 @@ header {
     flex-wrap: wrap;
 }
 /*-----------------------------------*/
+
 .left-margin {
     margin-left: 10px;
 }
@@ -174,6 +171,15 @@ header {
 .margin-left {
     margin-left: 100px;
 }
+
+.current-weather {
+    border: solid var(--dark);
+    width: auto;
+    padding-left: 5px;
+    background-color: var(--secondary);
+}
+
+/************   Media queries *****************/
 
 @media (max-width: 575.98px) {
     .app-title {
@@ -185,6 +191,7 @@ header {
     }
  
 }
+
 @media (max-width: 767.98px) { 
     .app-title {
         padding: 0px;
@@ -194,6 +201,7 @@ header {
         margin-left: 23px;
     }
 }
+
 @media (max-width: 991.98px) { 
     .app-title {
         padding: 0px;
@@ -205,6 +213,5 @@ header {
     #div-day5{
         margin-left: 5px;
     }
-
 }
 
