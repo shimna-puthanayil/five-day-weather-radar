@@ -3,7 +3,7 @@
     --secondary: #b2c5dd;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
-    --dark: #082f7bdf;
+    --dark: #132954df; 
     --border-radius: .3rem;
     --dark-color:linear-gradient(98deg,
     rgba(65, 101, 156, 1) 24%,
@@ -120,7 +120,8 @@ header {
 
 .width-card {
     width: 170px;
-    background-color: #3b4967;
+    background-color:var(--dark);
+    /* background-color: #3b4967; */
     color: var(--primary);
 }
 
