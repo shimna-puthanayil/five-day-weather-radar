@@ -11,112 +11,69 @@
 </head>
 
 <body class="flex-column min-100-vh">
-    <header>
-        <h2 class="app-title"> Weather Dashboard</h2>
+    <header class="">
+        <h2 class=".flex-column app-title"> Weather Dashboard</h2>
     </header>
 
     <main class="flex-row">
         <div class="col-12 col-sm-3">
-
             <div>
-                <h4 class="mx-2 fw-bolder">Search for a City:</h4>
+                <!----------------------------------Search Bar------------------------------->
+                <h4 class="mx-2 mt-2 fw-bolder">Search for a City:</h4>
                 <form id="user-form" class="card-body">
                     <input name="username" id="username" type="text" autofocus="true" class="form-input" />
                     <button id="btn-search" type="submit" class="btn btnSearch">Search</button>
                 </form>
-                <!-- -----------------------Modal    --------------------- -->
+                <!-- ------------------------------    Modal    --------------------------->
                 <div class="modal fade" id="modal-city-name" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Requird</h5>
+                                <h5 class="modal-title" id="exampleModalLabel"></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                Enter city name
                             </div>
-
                         </div>
                     </div>
                 </div>
-                <!-- -------------------------------------- --------------------->
+                <!-------------------------------------------------------------------------->
             </div>
             <hr>
             <div>
+                 <!---------------------------- Searched cities  ----------------------->
                 <div id="city-buttons" class="card-body">
-
                 </div>
+                <!-------------------------------------------------------------------------->
             </div>
         </div>
         <div class="col-12 col-sm-9 ">
-
             <div class="container">
-
                 <section class="row justify-content-evenly">
-                    <div class="mx-6 my-3 col-12 col-sm-9 col-lg-12 ">
-                        <div class="card current-weather">
-                            <p id="current-weather" class="card-text">
-                            </p>
-                        </div>
+                    <!---------------------- Current weather ------------------->
+                    <div id="div-current" class="mx-6 my-3 col-12 col-sm-10 col-lg-12 ">
                     </div>
-                    <h5 class="ms-4 fw-bolder">5-Day Forecast</h5>
-                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
-                        <div class="card width-card">
-                            <!-- <h3 class="card-header">
-                            </h3> -->
-                            <div class="card-body">
-                                <p id="day1-weather" class="card-text">
-
-                                </p>
-                            </div>
-                        </div>
+                    <!---------------------- ---------------- ------------------->
+                    <!---------------------------- Day 1  ----------------------->
+                    <div id="div-day1" class="col-5 col-sm-4 col-lg-2  me-3 ps-0">
                     </div>
-                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
-                        <div class="card width-card">
-                            <!-- <h3 class="card-header ">
-                            </h3> -->
-                            <div class="card-body">
-                                <p id="day2-weather" class="card-text">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Debiti est iciis nulla
-                                    modi.
-                                </p>
-                            </div>
-                        </div>
+                     <!---------------------------- Day 2  ----------------------->
+                    <div id="div-day2" class="col-5 col-sm-4 col-lg-2  me-3 ps-0">
                     </div>
-                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
-                        <div class="card width-card">
-                            <!-- <h3 class="card-header ">
-                            </h3> -->
-                            <div class="card-body">
-                                <p id="day3-weather" class="card-text">
-                                </p>
-                            </div>
-                        </div>
+                     <!---------------------------- Day 3  ----------------------->
+                    <div id="div-day3" class="col-5 col-sm-4 col-lg-2  me-3 ps-0">
                     </div>
-                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-3 ps-0">
-                        <div class="card width-card">
-                            <!-- <h3 class="card-header ">
-                            </h3> -->
-                            <div class="card-body">
-                                <p id="day4-weather" class="card-text">
-                                </p>
-                            </div>
-                        </div>
+                     <!---------------------------- Day 4  ----------------------->
+                    <div id="div-day4" class="col-5 col-sm-4 col-lg-2  me-3 ps-0">
                     </div>
-                    <div class="col-5 col-sm-6 col-lg-2 mt-3 me-0 ps-0 ">
-                        <div class="card width-card">
-                            <!-- <h3 class="card-header ">
-                            </h3> -->
-                            <div class="card-body">
-                                <p id="day5-weather" class="card-text">
-                                </p>
-                            </div>
-                        </div>
+                     <!---------------------------- Day 5  ----------------------->
+                    <div id="div-day5" class="col-5 col-sm-4 col-lg-2  me-0 ps-0 ">
                     </div>
-                </section>
             </div>
+            </section>
+        </div>
         </div>
 
     </main>
@@ -126,7 +83,6 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <script src="./assets/js/script.js"></script>
 </body>
 
