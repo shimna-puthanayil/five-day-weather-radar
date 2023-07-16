@@ -3,12 +3,12 @@
     --secondary: #b2c5dd;
     --tertiary: #5e769c;
     --light-dark: #445b8b;
-    --dark: #132954df; 
+    --dark: #132954df;
     --border-radius: .3rem;
-    --dark-color:linear-gradient(98deg,
-    rgba(65, 101, 156, 1) 24%,
-    rgba(8, 43, 87, 1) 73%);
-   --button-color: radial-gradient(circle, rgba(240, 230, 140, 1) 0%, rgba(198, 147, 28, 0.954) 100%);
+    --dark-color: linear-gradient(98deg,
+            rgba(65, 101, 156, 1) 24%,
+            rgba(8, 43, 87, 1) 73%);
+    --button-color: radial-gradient(circle, rgba(240, 230, 140, 1) 0%, rgba(198, 147, 28, 0.954) 100%);
 }
 
 * {
@@ -29,7 +29,7 @@ h2,
 h4,
 h5 {
     font-weight: 500;
-    
+
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
@@ -120,7 +120,7 @@ header {
 
 .width-card {
     width: 170px;
-    background-color:var(--dark);
+    background-color: var(--dark);
     /* background-color: #3b4967; */
     color: var(--primary);
 }
@@ -135,8 +135,7 @@ header {
 /* FORM */
 
 .form-label,
-.form-input
- {
+.form-input {
     display: block;
 }
 
@@ -177,4 +176,10 @@ header {
 
 .margin-left {
     margin-left: 100px;
+}
+
+@media (max-width: 575.98px) {
+    .app-title {
+        padding: 0px;
+    }
 }
