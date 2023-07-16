@@ -179,4 +179,32 @@ header {
     .app-title {
         padding: 0px;
     }
+    #div-day1,#div-day2,#div-day3,#div-day4,#div-day5{
+        margin-top: 10px;
+        margin-left: 23px;
+    }
+ 
 }
+@media (max-width: 767.98px) { 
+    .app-title {
+        padding: 0px;
+    }
+    #div-day1,#div-day2,#div-day3,#div-day4,#div-day5{
+        margin-top: 10px;
+        margin-left: 23px;
+    }
+}
+@media (max-width: 991.98px) { 
+    .app-title {
+        padding: 0px;
+    }
+    #div-day1,#div-day2,#div-day3,#div-day4,#div-day5{
+        margin-top: 10px;
+        margin-left: 23px;
+    }
+    #div-day5{
+        margin-left: 5px;
+    }
+
+}
+
