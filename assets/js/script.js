@@ -1,16 +1,60 @@
 var apiKey = '8c1111d0cda691e591dcf0850684c969';
 var city = "Sydney";
 var isReturned = false;
+var lat = 0;
+var lon = 0;
+var cityName = "";
+var getGeoCoordinates = function (city) {
+    var apiUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=5&appid=' + apiKey;
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    if (data.length) {
+                        lat = data[0].lat;
+                        lon = data[0].lon;
+                        console.log(data[0].name);
+                        getCurrentWeather(lat, lon);
+                        if (data[0].local_names) {
+                            if (data[0].local_names.en) {
+                                cityName = data[0].local_names.en;
+                            }
+                            else {
+                                cityName = data[0].name;
+                            }
+                        }
+                        else {
+                            cityName = data[0].name;
+                        }
+                    }
+                    console.log(cityName);
+                    console.log(lon);
+                    console.log(data);
+                });
+            } else {
+                var myModal = new bootstrap.Modal($('#modal-city-name'), {
+                    focus: true
+                });
+                $('.modal-body').text(response.statusText);
+                $('.modal-title').text("Error ");
+                myModal.show();
+                // document.location.assign('./index.html');
+            }
+        })
+        .catch(function (error) {
 
-var getCurrentWeather = function (city) {
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
+        });
+};
+var getCurrentWeather = function (lat, lon) {
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=Imperial&appid=' + apiKey;
+    // var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=Imperial&appid=' + apiKey;
     fetch(apiUrl, { cache: 'reload' })
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
                     isReturned = true;
                     displayCurrentWeather(data);
-                    
+
                 });
             } else {
                 var myModal = new bootstrap.Modal($('#modal-city-name'), {
@@ -31,8 +75,8 @@ var displayCurrentWeather = function (weather) {
     if (weather.length === 0) {
         return;
     }
-    var lon = weather.coord.lon;
-    var lat = weather.coord.lat;
+    // var lon = weather.coord.lon;
+    // var lat = weather.coord.lat;
     var icon = weather.weather[0].icon;
     var iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
     var currentTemp = weather.main.temp;
@@ -41,18 +85,30 @@ var displayCurrentWeather = function (weather) {
     var currentTime = weather.dt;
     var date = dayjs.unix(currentTime).format("DD/MM/YYYY");
     city = weather.name;
-    var currentWeatherEl = $('#current-weather');
+    var currentWeatherEl = $('#div-current');
     currentWeatherEl.html("");
-    var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(city + '(' + date + ')').addClass('left-margin fw-bolder'));
+
+
+
+    var divCardDayEl = $('<div class="card current-weather">');
+    var divCardTextDayEl = $('<p id="current-weather" class="card-text">');
+    divCardTextDayEl.html("");
+
+
+    var cityEl = $('<p style="margin-top:20px">').append($('<h4 style="margin-top:10px; display:inline;">').text(cityName + '(' + date + ')').addClass('left-margin fw-bolder'));
     var imgEl = $('<img style="display:inline width:30px; height:30px">').attr('src', iconUrl);
     cityEl.append(imgEl);
     var tempEl = $('<p>').text("Temp : " + Math.round(currentTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + wind + " MPH").addClass('left-margin');
     var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
-    currentWeatherEl.append(cityEl);
-    currentWeatherEl.append(tempEl);
-    currentWeatherEl.append(windEl);
-    currentWeatherEl.append(humidityEl);
+    divCardTextDayEl.append(cityEl);
+    divCardTextDayEl.append(tempEl);
+    divCardTextDayEl.append(windEl);
+    divCardTextDayEl.append(humidityEl);
+    divCardDayEl.append(divCardTextDayEl);
+    currentWeatherEl.append(divCardDayEl);
+    var forecastHeadingEl = $('<h5 class="ms-2 mt-3 fw-bolder">').text("5-Day Forecast");
+    currentWeatherEl.append(forecastHeadingEl);
     getFiveDayForecast(lon, lat);
     addToLocalStorage();
 }
@@ -65,10 +121,11 @@ btnSearchEl.on('click', function (event) {
 
     var searchEl = $('#username');
     if (searchEl.val()) {
-        var cities = [];
         city = searchEl.val();
-        getCurrentWeather(city);
-        console.log(isReturned);
+        getGeoCoordinates(city);
+        searchEl.val("");
+        // getCurrentWeather(city);
+        // console.log(isReturned);
 
     }
     else {
@@ -86,21 +143,21 @@ function addToLocalStorage() {
     var cities = [];
     if (searchedCities !== null) {
         cities = JSON.parse(searchedCities);
-        if (cities.indexOf(city) === -1) {
+        if (cities.indexOf(cityName) === -1) {
 
             if (isReturned === true) {
-               
-                cities.splice(0, 0, city);
-                if(cities.length>10){
-                   cities.splice(cities.length-1,1);
-            }
+
+                cities.splice(0, 0, cityName);
+                if (cities.length > 10) {
+                    cities.splice(cities.length - 1, 1);
+                }
                 localStorage.setItem("cities", JSON.stringify(cities));
             }
         }
     }
     else {
         if (isReturned === true) {
-            cities.push(city);
+            cities.push(cityName);
             localStorage.setItem("cities", JSON.stringify(cities));
         }
     }
@@ -121,11 +178,12 @@ function createBtnSearchedCity() {
 }
 //click event of the searched city buttons
 var cityButtonEl = $("#city-buttons");
-cityButtonEl.on('click',  function (event) {
+cityButtonEl.on('click', function (event) {
     var clickedCity = event.target.getAttribute('data-city');
 
     if (clickedCity) {
-        getCurrentWeather(clickedCity);
+        // getCurrentWeather(clickedCity);
+        getGeoCoordinates(clickedCity);
     }
 });
 
@@ -221,20 +279,20 @@ var displayFiveDayForecast = function (list) {
     for (i = 1; i < 6; i++) {
         switch (i) {
             case 1:
-                displayWeather(firstDayWeather, "#day1-weather", day1Date);
+                displayWeather(firstDayWeather, "#div-day1", "#day1-weather", day1Date);
                 break;
             case 2:
-                displayWeather(secondDayWeather, "#day2-weather", day2Date);
+                displayWeather(secondDayWeather, "#div-day2", "#day2-weather", day2Date);
                 break;
             case 3:
-                displayWeather(thirdDayWeather, "#day3-weather", day3Date);
+                displayWeather(thirdDayWeather, "#div-day3", "#day3-weather", day3Date);
                 break;
             case 4:
-                displayWeather(fourthDayWeather, "#day4-weather", day4Date);
+                displayWeather(fourthDayWeather, "#div-day4", "#day4-weather", day4Date);
                 break;
             case 5:
                 if (fifthDayWeather[0].length !== 0) {
-                    displayWeather(fifthDayWeather, "#day5-weather", day5Date);
+                    displayWeather(fifthDayWeather, "#div-day5", "#day5-weather", day5Date);
                 }
                 else {
                     // when the user searches for weather at 12.00 am  or just after  12.00 a.m , then data wont be available for 5 th day. 
@@ -259,29 +317,36 @@ var displayFiveDayForecast = function (list) {
         }
     }
 }
-function displayWeather(weatherArray, weatherElId, date) {
+function displayWeather(weatherArray, divElId, weatherElId, date) {
     var maxTemp = Math.max(...weatherArray[0]);
     var maxWind = Math.max(...weatherArray[1]);
     var index = weatherArray[0].indexOf(maxTemp);
     var icon = weatherArray[3][index];
     var humidity = weatherArray[2][index];
     var iconPath = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-    var weatherEl = $(weatherElId);
-    weatherEl.html("");
+    var divEl = $(divElId);
+    divEl.html("");
+    var divCardDayEl = $('<div class="card width-card">');
+    var divCardBodyDayEl = $('<div class="card-body">');
+    var divCardTextDayEl = $('<p id="' + weatherElId + '" class="card-text">');
+    divCardTextDayEl.html("");
     var dateEl = $('<p  style="margin-top:20px">').append($('<h5 style="margin-top:10px; display:inline; color:#dee8f2">').text(date).addClass('left-margin'));
     var imgEl = $('<img style="width:30px; height:30px">').attr('src', iconPath).addClass("mx-3");
     var tempEl = $('<p>').text("Temp : " + Math.round(maxTemp) + " °F").addClass('left-margin');
     var windEl = $('<p>').text("Wind  : " + maxWind + " MPH").addClass('left-margin');
     var humidityEl = $('<p>').text("Humidity  : " + humidity + '%').addClass('left-margin');
-    weatherEl.append(dateEl);
-    weatherEl.append(imgEl);
-    weatherEl.append(tempEl);
-    weatherEl.append(windEl);
-    weatherEl.append(humidityEl);
+    divCardTextDayEl.append(dateEl);
+    divCardTextDayEl.append(imgEl);
+    divCardTextDayEl.append(tempEl);
+    divCardTextDayEl.append(windEl);
+    divCardTextDayEl.append(humidityEl);
+    divCardBodyDayEl.append(divCardTextDayEl);
+    divCardDayEl.append(divCardBodyDayEl);
+    divEl.append(divCardDayEl);
 }
 
 function init() {
-    getCurrentWeather(city);
+    // getCurrentWeather(city);
     createBtnSearchedCity();
 }
 init();
